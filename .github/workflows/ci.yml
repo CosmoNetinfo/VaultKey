@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-audit:
+    name: Lint & Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Security audit
+        run: npm audit --audit-level=high
+
+      - name: Check for sensitive files
+        run: |
+          echo "Verifica che non ci siano file vault committati..."
+          if find . -name "*.vk" -o -name "*.salt" | grep -v node_modules | grep -q .; then
+            echo "❌ ERRORE: Trovati file vault (.vk o .salt) nel repository!"
+            exit 1
+          fi
+          echo "✅ Nessun file vault trovato."
+
+  build:
+    name: Build Check (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: lint-and-audit
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify main files exist
+        shell: bash
+        run: |
+          for f in main.js preload.js renderer.js index.html package.json; do
+            if [ ! -f "$f" ]; then
+              echo "❌ File mancante: $f"
+              exit 1
+            fi
+          done
+          echo "✅ Tutti i file principali presenti."
