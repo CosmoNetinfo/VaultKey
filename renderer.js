@@ -247,12 +247,12 @@ function renderEntries() {
     el.className = 'entry-item' + (state.currentEntry?.id === entry.id ? ' active' : '');
     const initial = entry.name.charAt(0).toUpperCase();
     el.innerHTML = `
-      <div class="entry-avatar">${initial}</div>
+      <div class="entry-avatar">🛡️</div>
       <div class="entry-info">
-        <div class="entry-name">${entry.name}</div>
-        <div class="entry-user">${entry.username || '—'}</div>
+        <div class="entry-name">${entry.name || 'Senza nome'}</div>
+        <div class="entry-user">${entry.username || 'Nessun utente'}</div>
       </div>
-      <span class="entry-cat-badge">${catEmoji[entry.category] || '📁'}</span>
+      <div class="entry-cat-badge">${entry.category || 'Generale'}</div>
     `;
     el.addEventListener('click', () => selectEntry(entry));
     list.appendChild(el);
@@ -274,13 +274,64 @@ function selectEntry(entry) {
 }
 
 function fillDetailForm(entry) {
-  document.getElementById('entry-id').value = entry.id || '';
-  document.getElementById('entry-name').value = entry.name || '';
-  document.getElementById('entry-cat').value = entry.category || 'web';
-  document.getElementById('entry-url').value = entry.url || '';
-  document.getElementById('entry-username').value = entry.username || '';
-  document.getElementById('entry-password').value = entry.password || '';
-  document.getElementById('entry-notes').value = entry.notes || '';
+  document.getElementById('entry-id').value = entry.id || ''; // Keep this for internal ID tracking
+  document.getElementById('detail-form').innerHTML = `
+    <div class="detail-hero">
+      <div class="entry-avatar">🛡️</div>
+      <h2>${entry.name || 'Senza nome'}</h2>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Nome Sito / App</label>
+        <input type="text" id="edit-name" value="${entry.name || ''}" placeholder="Esempio: Google">
+      </div>
+      <div class="field">
+        <label>Categoria</label>
+        <select id="edit-category">
+          <option value="Generale" ${entry.category === 'Generale' ? 'selected' : ''}>Generale</option>
+          <option value="Social" ${entry.category === 'Social' ? 'selected' : ''}>Social</option>
+          <option value="Lavoro" ${entry.category === 'Lavoro' ? 'selected' : ''}>Lavoro</option>
+          <option value="Banca" ${entry.category === 'Banca' ? 'selected' : ''}>Banca</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label>Username / Email</label>
+      <div class="password-field">
+        <div class="field">
+          <input type="text" id="edit-username" value="${entry.username || ''}" placeholder="nome@esempio.com">
+        </div>
+        <button class="btn-icon" onclick="copyToClipboard('${entry.username || ''}', 'Username')" title="Copia Username">📋</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <div class="password-field">
+        <div class="field">
+          <input type="password" id="edit-password" value="${entry.password || ''}" placeholder="••••••••">
+        </div>
+        <button class="btn-icon" id="btn-toggle-view" title="Mostra/Nascondi">👁️</button>
+        <button class="btn-icon" onclick="copyToClipboard('${entry.password || ''}', 'Password')" title="Copia Password">📋</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>URL</label>
+      <div class="password-field">
+        <div class="field">
+          <input type="url" id="edit-url" value="${entry.url || ''}" placeholder="https://www.esempio.com">
+        </div>
+        <button class="btn-icon" id="btn-open-url" title="Apri Sito">🌐</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Note</label>
+      <textarea id="edit-notes" placeholder="Note aggiuntive...">${entry.notes || ''}</textarea>
+    </div>
+  `;
   updateStrengthBar(entry.password || '');
 }
 

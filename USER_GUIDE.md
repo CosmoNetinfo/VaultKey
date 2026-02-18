@@ -7,9 +7,11 @@ Benvenuto in **VaultKey**, il tuo password manager personale e sicuro progettato
 ## 🚀 Primi Passi
 
 ### 1. Installazione
-1. Vai nella cartella `dist/` del progetto.
-2. Avvia l'installer `VaultKey Setup 1.0.0.exe`.
-3. Una volta completata l'installazione, troverai l'icona sul desktop o nel menu Start.
+
+1.  **Scarica l'App**: Vai alla sezione [Releases](https://github.com/CosmoNetinfo/VaultKey/releases) del progetto su GitHub.
+2.  **Scarica l'Installer**: Scarica il file più recente, solitamente denominato `VaultKey Setup 1.0.0.exe`.
+3.  **Avvia l'Installazione**: Doppio clic sul file scaricato per avviare l'installer.
+4.  **Completamento**: Una volta terminata la procedura, troverai l'icona "scudo" di VaultKey sul tuo Desktop o nel menu Start di Windows.
 
 ### 2. Preparazione USB
 Inserisci una chiavetta USB nel computer. VaultKey è progettato per salvare i tuoi dati crittografati direttamente sull'unità rimovibile, così potrai portarli sempre con te.
