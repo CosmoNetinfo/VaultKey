@@ -246,6 +246,7 @@ function renderEntries() {
     const el = document.createElement('div');
     el.className = 'entry-item' + (state.currentEntry?.id === entry.id ? ' active' : '');
     const initial = entry.name.charAt(0).toUpperCase();
+    el.dataset.entryId = entry.id; // Added for robust selection
     el.innerHTML = `
       <div class="entry-avatar">🛡️</div>
       <div class="entry-info">
@@ -261,24 +262,34 @@ function renderEntries() {
 
 // ─── ENTRY DETAIL ─────────────────────────────────────────────────────────────
 function selectEntry(entry) {
-  state.currentEntry = entry;
-  state.editMode = false;
-  fillDetailForm(entry);
-  document.querySelectorAll('.entry-item').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.entry-item').forEach(el => {
-    if (el.querySelector('.entry-name')?.textContent === entry.name) el.classList.add('active');
-  });
-  showScreen('screen-detail');
-  document.getElementById('detail-title').textContent = entry.name;
-  document.getElementById('btn-delete-entry').style.display = 'inline-flex';
+  try {
+    state.currentEntry = entry;
+    state.editMode = false;
+    fillDetailForm(entry);
+    
+    document.querySelectorAll('.entry-item').forEach(el => el.classList.remove('active'));
+    // Match by unique ID instead of name to be more robust
+    document.querySelectorAll('.entry-item').forEach(el => {
+      // Find the item that corresponds to this entry (we could store ID on the element)
+      if (entry.id && el.dataset.entryId === entry.id) el.classList.add('active');
+    });
+
+    showScreen('screen-detail');
+    document.getElementById('detail-title').textContent = (entry.name && entry.name !== 'undefined') ? entry.name : 'Dettagli';
+    document.getElementById('btn-delete-entry').style.display = 'inline-flex';
+  } catch (err) {
+    console.error('Error selecting entry:', err);
+    toast('Impossibile aprire la voce: ' + err.message, 'error');
+  }
 }
 
 function fillDetailForm(entry) {
-  document.getElementById('entry-id').value = entry.id || '';
-  document.getElementById('detail-form').innerHTML = `
+  const container = document.getElementById('detail-form');
+  container.innerHTML = `
+    <input type="hidden" id="entry-id" value="${entry.id || ''}" />
     <div class="detail-hero">
       <div class="entry-avatar">🛡️</div>
-      <h2>${entry.name || 'Senza nome'}</h2>
+      <h2>${(entry.name && entry.name !== 'undefined') ? entry.name : 'Senza nome'}</h2>
     </div>
     <div class="field-row">
       <div class="field">
@@ -302,7 +313,7 @@ function fillDetailForm(entry) {
         <div class="field">
           <input type="text" id="entry-username" value="${entry.username || ''}" placeholder="nome@esempio.com">
         </div>
-        <button class="btn-icon" onclick="copyToClipboard('${entry.username || ''}', 'Username')" title="Copia Username">📋</button>
+        <button class="btn-icon" id="btn-copy-user-detail" title="Copia Username">📋</button>
       </div>
     </div>
 
@@ -313,7 +324,10 @@ function fillDetailForm(entry) {
           <input type="password" id="entry-password" value="${entry.password || ''}" placeholder="••••••••">
         </div>
         <button class="btn-icon" id="btn-toggle-pwd-detail" title="Mostra/Nascondi">👁️</button>
-        <button class="btn-icon" onclick="copyToClipboard('${entry.password || ''}', 'Password')" title="Copia Password">📋</button>
+        <button class="btn-icon" id="btn-copy-pwd-detail" title="Copia Password">📋</button>
+      </div>
+      <div class="strength-meter">
+        <div class="strength-bar" id="strength-bar"></div>
       </div>
     </div>
 
@@ -333,7 +347,15 @@ function fillDetailForm(entry) {
     </div>
   `;
 
-  // Re-attach listeners for dynamically created buttons
+  // Robust listeners (avoiding inline onclick for special characters)
+  document.getElementById('btn-copy-user-detail').addEventListener('click', () => {
+    copyToClipboard(document.getElementById('entry-username').value, 'Username');
+  });
+
+  document.getElementById('btn-copy-pwd-detail').addEventListener('click', () => {
+    copyToClipboard(document.getElementById('entry-password').value, 'Password');
+  });
+
   document.getElementById('btn-toggle-pwd-detail').addEventListener('click', () => {
     const inp = document.getElementById('entry-password');
     inp.type = inp.type === 'password' ? 'text' : 'password';
@@ -345,7 +367,6 @@ function fillDetailForm(entry) {
     else toast('Nessun URL da aprire.', 'error');
   });
 
-  // Strength bar update on input
   document.getElementById('entry-password').addEventListener('input', e => {
     updateStrengthBar(e.target.value);
   });
