@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld('vaultAPI', {
   selectFolder: () => ipcRenderer.invoke('select-folder'),
   selectCsvFile: () => ipcRenderer.invoke('select-csv-file'),
   readFile: (path) => ipcRenderer.invoke('read-file', path),
+  openExternal: (url) => ipcRenderer.send('open-external', url),
   platform: process.platform,
 });

@@ -866,6 +866,24 @@
         flex: 1;
         font-size: 12px;
       }
+      
+      .branding-footer {
+        padding: 8px 12px;
+        font-size: 11px;
+        color: var(--text-dim);
+        border-top: 1px solid var(--border);
+        text-align: center;
+        background: rgba(0,0,0,0.2);
+      }
+      .branding-footer a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .branding-footer a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -945,6 +963,11 @@
             >
               🔒 Blocca
             </button>
+          </div>
+          
+          <div class="branding-footer">
+            Fornito da <a id="link-branding">CosmoNet.info</a><br>
+            <a id="link-support">Supporto & Community</a>
           </div>
         </div>
 

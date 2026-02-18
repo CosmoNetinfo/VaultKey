@@ -576,6 +576,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  // Branding Links
+  document.getElementById('link-branding').addEventListener('click', () => {
+    window.vaultAPI.openExternal('https://www.cosmonet.info');
+  });
+  document.getElementById('link-support').addEventListener('click', () => {
+    window.vaultAPI.openExternal('https://www.cosmonet.info/community/');
+  });
+
   // Close modal on overlay click
   document.getElementById('modal-generator').addEventListener('click', e => {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');

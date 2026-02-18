@@ -1,5 +1,5 @@
 // main.js - Processo principale Electron
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -225,4 +225,9 @@ ipcMain.handle('read-file', async (event, filePath) => {
   } catch (err) {
     throw new Error('Impossibile leggere il file: ' + err.message);
   }
+});
+
+// Apri URL esterno
+ipcMain.on('open-external', (event, url) => {
+  shell.openExternal(url);
 });
