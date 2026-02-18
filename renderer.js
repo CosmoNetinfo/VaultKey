@@ -274,7 +274,7 @@ function selectEntry(entry) {
 }
 
 function fillDetailForm(entry) {
-  document.getElementById('entry-id').value = entry.id || ''; // Keep this for internal ID tracking
+  document.getElementById('entry-id').value = entry.id || '';
   document.getElementById('detail-form').innerHTML = `
     <div class="detail-hero">
       <div class="entry-avatar">🛡️</div>
@@ -283,15 +283,15 @@ function fillDetailForm(entry) {
     <div class="field-row">
       <div class="field">
         <label>Nome Sito / App</label>
-        <input type="text" id="edit-name" value="${entry.name || ''}" placeholder="Esempio: Google">
+        <input type="text" id="entry-name" value="${entry.name || ''}" placeholder="Esempio: Google">
       </div>
       <div class="field">
         <label>Categoria</label>
-        <select id="edit-category">
-          <option value="Generale" ${entry.category === 'Generale' ? 'selected' : ''}>Generale</option>
-          <option value="Social" ${entry.category === 'Social' ? 'selected' : ''}>Social</option>
-          <option value="Lavoro" ${entry.category === 'Lavoro' ? 'selected' : ''}>Lavoro</option>
-          <option value="Banca" ${entry.category === 'Banca' ? 'selected' : ''}>Banca</option>
+        <select id="entry-cat">
+          <option value="web" ${entry.category === 'web' ? 'selected' : ''}>🌐 Web</option>
+          <option value="app" ${entry.category === 'app' ? 'selected' : ''}>📱 App</option>
+          <option value="bank" ${entry.category === 'bank' ? 'selected' : ''}>🏦 Banca</option>
+          <option value="other" ${entry.category === 'other' ? 'selected' : ''}>📁 Altro</option>
         </select>
       </div>
     </div>
@@ -300,7 +300,7 @@ function fillDetailForm(entry) {
       <label>Username / Email</label>
       <div class="password-field">
         <div class="field">
-          <input type="text" id="edit-username" value="${entry.username || ''}" placeholder="nome@esempio.com">
+          <input type="text" id="entry-username" value="${entry.username || ''}" placeholder="nome@esempio.com">
         </div>
         <button class="btn-icon" onclick="copyToClipboard('${entry.username || ''}', 'Username')" title="Copia Username">📋</button>
       </div>
@@ -310,9 +310,9 @@ function fillDetailForm(entry) {
       <label>Password</label>
       <div class="password-field">
         <div class="field">
-          <input type="password" id="edit-password" value="${entry.password || ''}" placeholder="••••••••">
+          <input type="password" id="entry-password" value="${entry.password || ''}" placeholder="••••••••">
         </div>
-        <button class="btn-icon" id="btn-toggle-view" title="Mostra/Nascondi">👁️</button>
+        <button class="btn-icon" id="btn-toggle-pwd-detail" title="Mostra/Nascondi">👁️</button>
         <button class="btn-icon" onclick="copyToClipboard('${entry.password || ''}', 'Password')" title="Copia Password">📋</button>
       </div>
     </div>
@@ -321,17 +321,35 @@ function fillDetailForm(entry) {
       <label>URL</label>
       <div class="password-field">
         <div class="field">
-          <input type="url" id="edit-url" value="${entry.url || ''}" placeholder="https://www.esempio.com">
+          <input type="url" id="entry-url" value="${entry.url || ''}" placeholder="https://www.esempio.com">
         </div>
-        <button class="btn-icon" id="btn-open-url" title="Apri Sito">🌐</button>
+        <button class="btn-icon" id="btn-open-url-detail" title="Apri Sito">🌐</button>
       </div>
     </div>
 
     <div class="field">
       <label>Note</label>
-      <textarea id="edit-notes" placeholder="Note aggiuntive...">${entry.notes || ''}</textarea>
+      <textarea id="entry-notes" placeholder="Note aggiuntive...">${entry.notes || ''}</textarea>
     </div>
   `;
+
+  // Re-attach listeners for dynamically created buttons
+  document.getElementById('btn-toggle-pwd-detail').addEventListener('click', () => {
+    const inp = document.getElementById('entry-password');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  });
+
+  document.getElementById('btn-open-url-detail').addEventListener('click', () => {
+    const url = document.getElementById('entry-url').value;
+    if (url) window.vaultAPI.openExternal(url);
+    else toast('Nessun URL da aprire.', 'error');
+  });
+
+  // Strength bar update on input
+  document.getElementById('entry-password').addEventListener('input', e => {
+    updateStrengthBar(e.target.value);
+  });
+
   updateStrengthBar(entry.password || '');
 }
 
