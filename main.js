@@ -206,3 +206,23 @@ ipcMain.handle('select-folder', async () => {
   if (result.canceled) return null;
   return result.filePaths[0];
 });
+
+// Seleziona file CSV
+ipcMain.handle('select-csv-file', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{ name: 'CSV Passwords', extensions: ['csv'] }],
+    title: 'Seleziona file esportato da Google Chrome',
+  });
+  if (result.canceled) return null;
+  return result.filePaths[0];
+});
+
+// Leggi contenuto file
+ipcMain.handle('read-file', async (event, filePath) => {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch (err) {
+    throw new Error('Impossibile leggere il file: ' + err.message);
+  }
+});
