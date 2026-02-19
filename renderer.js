@@ -400,18 +400,11 @@ function fillDetailForm(entry) {
   updateStrengthBar(entry.password || '');
 }
 
-function clearDetailForm() {
-  ['entry-id','entry-name','entry-url','entry-username','entry-password','entry-notes'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('entry-cat').value = 'web';
-  updateStrengthBar('');
-}
 
 function newEntry() {
   state.currentEntry = null;
   state.editMode = true;
-  clearDetailForm();
+  fillDetailForm({}); // Reset completo del form comprese le sezioni hero
   showScreen('screen-detail');
   document.getElementById('detail-title').textContent = 'Nuova voce';
   document.getElementById('btn-delete-entry').style.display = 'none';
