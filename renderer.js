@@ -255,7 +255,7 @@ function renderEntries() {
     el.dataset.entryId = entry.id; // Added for robust selection
     el.innerHTML = `
       <div class="entry-avatar">
-        <img src="assets/vaultkey-icon.png" style="width:24px; height:24px; filter:brightness(1.5);">
+        <img src="assets/icon.png" style="width:24px; height:24px; filter:brightness(1.5);">
       </div>
       <div class="entry-info">
         <div class="entry-name">${entry.name || 'Senza nome'}</div>
@@ -306,7 +306,7 @@ function fillDetailForm(entry) {
     <input type="hidden" id="entry-id" value="${entry.id || ''}" />
     <div class="detail-hero">
       <div class="entry-avatar">
-        <img src="assets/vaultkey-icon.png" alt="Logo">
+        <img src="assets/icon.png" alt="Logo">
       </div>
       <h2>${(entry.name && entry.name !== 'undefined') ? entry.name : 'Senza nome'}</h2>
       <div class="hero-status-row">

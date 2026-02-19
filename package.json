@@ -17,11 +17,11 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "assets/vaultkey-icon.png"
+      "icon": "assets/icon.png"
     },
     "mac": {
       "target": "dmg",
-      "icon": "assets/vaultkey-icon.png"
+      "icon": "assets/icon.png"
     },
     "linux": {
       "target": "AppImage",
