@@ -1,13 +1,8 @@
 # 🔐 VaultKey
 
-<<<<<<< HEAD
+<img width="1132" height="784" alt="VaultKey Screenshot" src="https://github.com/user-attachments/assets/933cd883-6e52-4a84-a360-21c1455a4c66" />
 
-<img width="1132" height="784" alt="Screenshot 2026-02-19 013738" src="https://github.com/user-attachments/assets/933cd883-6e52-4a84-a360-21c1455a4c66" />
-
-[![CI](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml/badge.svg)](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml)
-=======
 [![CI](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml)
->>>>>>> aab244f (Complete UI redesign, icon update, auto-update configuration, and bug fixes.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Electron](https://img.shields.io/badge/Electron-28-47848F?logo=electron)](https://www.electronjs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/CosmoNetinfo/VaultKey/releases)
@@ -58,11 +53,7 @@ Per rilasciare una nuova versione:
 ### Avvio in modalità sviluppo
 ```bash
 git clone https://github.com/CosmoNetinfo/VaultKey.git
-<<<<<<< HEAD
-cd vaultkey
-=======
 cd VaultKey
->>>>>>> aab244f (Complete UI redesign, icon update, auto-update configuration, and bug fixes.)
 npm install
 npm start
 ```
