@@ -1,12 +1,16 @@
 # 🔐 VaultKey
 
+<<<<<<< HEAD
 
 <img width="1132" height="784" alt="Screenshot 2026-02-19 013738" src="https://github.com/user-attachments/assets/933cd883-6e52-4a84-a360-21c1455a4c66" />
 
 [![CI](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml/badge.svg)](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml)
+=======
+[![CI](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml)
+>>>>>>> aab244f (Complete UI redesign, icon update, auto-update configuration, and bug fixes.)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Electron](https://img.shields.io/badge/Electron-28-47848F?logo=electron)](https://www.electronjs.org/)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/TUO_USERNAME/vaultkey/releases)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/CosmoNetinfo/VaultKey/releases)
 [![Security: AES-256-GCM](https://img.shields.io/badge/Security-AES--256--GCM-green)](#-sicurezza)
 
 > Password manager **cross-platform** che salva le tue password crittografate direttamente su una **chiavetta USB**. Nessun cloud. Nessun server. Solo tu e il tuo USB.
@@ -19,12 +23,20 @@
 - 🔑 **PBKDF2-SHA512** — 310.000 iterazioni per resistere al brute-force
 - 💾 **Dati sul tuo USB** — nessun cloud, nessun server, controllo totale
 - ⚡ **Generatore password sicuro** — usa il CSPRNG del sistema operativo
-- 🔍 **Rilevamento automatico USB** — su Windows, macOS e Linux
-- 📊 **Indicatore forza password** — feedback visivo in tempo reale
+-  **Indicatore forza password** — feedback visivo in tempo reale
 - 🏷️ **Categorie** — Web, App, Banca, Altro
 - 🔍 **Ricerca istantanea** — filtra il vault mentre digiti
 - 📋 **Copia con un clic** — password negli appunti in un secondo
 - 🔒 **Blocco vault** — chiude e pulisce la memoria in un clic
+
+## Rilascio Aggiornamenti (Auto-Update)
+
+Per rilasciare una nuova versione:
+1. Incrementa la `version` in `package.json`.
+2. Esegui `npm run build-win`.
+3. Crea una nuova Release su GitHub e carica:
+   - L'installer `.exe` prodotto in `dist/`.
+   - Il file `latest.yml` prodotto in `dist/` (indispensabile per notificare l'aggiornamento alle app installate).
 
 ---
 
@@ -46,23 +58,21 @@
 ### Avvio in modalità sviluppo
 ```bash
 git clone https://github.com/CosmoNetinfo/VaultKey.git
+<<<<<<< HEAD
 cd vaultkey
+=======
+cd VaultKey
+>>>>>>> aab244f (Complete UI redesign, icon update, auto-update configuration, and bug fixes.)
 npm install
 npm start
 ```
 
-### Build per distribuzione
-```bash
-# Windows (.exe installer)
-npm run build-win
+### Installer pronti all'uso
+- 🪟 [**Windows Setup (.exe)**](dist/VaultKey%20Setup%201.0.0.exe)
+- 🐧 [**Linux AppImage (.AppImage)**](dist/vaultkey-1.0.0.AppImage)
 
-# macOS (.dmg)
-npm run build-mac
-
-# Linux (.AppImage)
-npm run build-linux
-```
-I file di installazione saranno nella cartella `dist/`.
+> [!NOTE]
+> Per **macOS**, la build richiede un computer Apple.
 
 ---
 

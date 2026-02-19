@@ -631,21 +631,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // Password field
-  document.getElementById('entry-password').addEventListener('input', e => {
-    updateStrengthBar(e.target.value);
-  });
-
-  document.getElementById('btn-toggle-pwd').addEventListener('click', () => {
-    const inp = document.getElementById('entry-password');
-    inp.type = inp.type === 'password' ? 'text' : 'password';
-  });
-
-  document.getElementById('btn-copy-pwd').addEventListener('click', () => {
-    const pwd = document.getElementById('entry-password').value;
-    if (pwd) copyToClipboard(pwd, 'Password');
-    else toast('Nessuna password da copiare.', 'error');
-  });
+  // Password related listeners are now handled dynamically in fillDetailForm
 
   // Generator
   document.getElementById('btn-generate').addEventListener('click', async () => {
