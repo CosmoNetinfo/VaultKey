@@ -2,7 +2,7 @@
 
 <img width="1132" height="784" alt="VaultKey Screenshot" src="https://github.com/user-attachments/assets/933cd883-6e52-4a84-a360-21c1455a4c66" />
 
-[![CI](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmoNetinfo/VaultKey/actions/workflows/ci.yml)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Electron](https://img.shields.io/badge/Electron-28-47848F?logo=electron)](https://www.electronjs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/CosmoNetinfo/VaultKey/releases)
