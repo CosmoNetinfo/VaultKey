@@ -45,7 +45,7 @@
 
 ### Avvio in modalità sviluppo
 ```bash
-git clone https://github.com/TUO_USERNAME/vaultkey.git
+git clone https://github.com/CosmoNetinfo/VaultKey.git
 cd vaultkey
 npm install
 npm start
