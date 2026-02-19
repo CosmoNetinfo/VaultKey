@@ -41,6 +41,11 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  // Imposta l'AUMID per Windows per gestire correttamente icone e notifiche
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('com.vaultkey.app');
+  }
+  
   createWindow();
   autoUpdater.checkForUpdatesAndNotify();
 });

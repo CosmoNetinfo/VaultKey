@@ -1,6 +1,6 @@
 {
   "name": "vaultkey",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Password manager crittografato su USB - Cross-platform",
   "author": "CosmoNetinfo",
   "main": "main.js",
@@ -17,6 +17,7 @@
   "build": {
     "appId": "com.vaultkey.app",
     "productName": "VaultKey",
+    "executableName": "VaultKey",
     "directories": {
       "output": "dist"
     },
