@@ -301,6 +301,7 @@ function fillDetailForm(entry) {
   const iconCopy = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
   const iconEye = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
   const iconGlobe = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+  const iconZap = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
 
   container.innerHTML = `
     <input type="hidden" id="entry-id" value="${entry.id || ''}" />
@@ -334,6 +335,7 @@ function fillDetailForm(entry) {
         <label>Password</label>
         <div class="input-actions-wrapper">
           <input type="password" id="entry-password" value="${entry.password || ''}" placeholder="••••••••">
+          <button class="action-btn" id="btn-gen-detail" title="Genera Nuova">${iconZap}</button>
           <button class="action-btn" id="btn-toggle-pwd-detail" title="Mostra/Nascondi">${iconEye}</button>
           <button class="action-btn" id="btn-copy-pwd-detail" title="Copia Password">${iconCopy}</button>
         </div>
@@ -377,6 +379,10 @@ function fillDetailForm(entry) {
   });
   document.getElementById('btn-copy-pwd-detail').addEventListener('click', () => {
     copyToClipboard(document.getElementById('entry-password').value, 'Password');
+  });
+  document.getElementById('btn-gen-detail').addEventListener('click', async () => {
+    document.getElementById('modal-generator').classList.add('open');
+    await generatePassword();
   });
   document.getElementById('btn-toggle-pwd-detail').addEventListener('click', () => {
     const inp = document.getElementById('entry-password');
@@ -634,10 +640,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Password related listeners are now handled dynamically in fillDetailForm
 
   // Generator
-  document.getElementById('btn-generate').addEventListener('click', async () => {
-    document.getElementById('modal-generator').classList.add('open');
-    await generatePassword();
-  });
+  const btnGenerate = document.getElementById('btn-generate');
+  if (btnGenerate) {
+    btnGenerate.addEventListener('click', async () => {
+      document.getElementById('modal-generator').classList.add('open');
+      await generatePassword();
+    });
+  }
 
   document.getElementById('gen-length').addEventListener('input', e => {
     document.getElementById('gen-length-val').textContent = e.target.value;
