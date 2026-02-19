@@ -240,20 +240,31 @@ function renderEntries() {
     return;
   }
 
-  const catEmoji = { web: '🌐', app: '📱', bank: '🏦', other: '📁' };
+  const catIcons = { 
+    web: '<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>', 
+    app: '<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>', 
+    bank: '<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>', 
+    other: '<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>'
+  };
 
   filtered.forEach(entry => {
     const el = document.createElement('div');
     el.className = 'entry-item' + (state.currentEntry?.id === entry.id ? ' active' : '');
     const initial = entry.name.charAt(0).toUpperCase();
     el.dataset.entryId = entry.id; // Added for robust selection
+    el.dataset.entryId = entry.id; // Added for robust selection
     el.innerHTML = `
-      <div class="entry-avatar">🛡️</div>
+      <div class="entry-avatar">
+        <img src="assets/vaultkey-icon.png" style="width:24px; height:24px; filter:brightness(1.5);">
+      </div>
       <div class="entry-info">
         <div class="entry-name">${entry.name || 'Senza nome'}</div>
         <div class="entry-user">${entry.username || 'Nessun utente'}</div>
       </div>
-      <div class="entry-cat-badge">${entry.category || 'Generale'}</div>
+      <div class="entry-cat-badge">
+        ${catIcons[entry.category] || catIcons.other}
+        <span>${entry.category || 'Generale'}</span>
+      </div>
     `;
     el.addEventListener('click', () => selectEntry(entry));
     list.appendChild(el);
@@ -285,88 +296,97 @@ function selectEntry(entry) {
 
 function fillDetailForm(entry) {
   const container = document.getElementById('detail-form');
+  
+  // Professional Icon Definitions
+  const iconCopy = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+  const iconEye = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+  const iconGlobe = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+
   container.innerHTML = `
     <input type="hidden" id="entry-id" value="${entry.id || ''}" />
     <div class="detail-hero">
-      <div class="entry-avatar">🛡️</div>
+      <div class="entry-avatar">
+        <img src="assets/vaultkey-icon.png" alt="Logo">
+      </div>
       <h2>${(entry.name && entry.name !== 'undefined') ? entry.name : 'Senza nome'}</h2>
+      <div class="hero-status-row">
+        ${entry.updatedAt ? `<span class="last-update">Aggiornato: ${new Date(entry.updatedAt).toLocaleDateString()}</span>` : ''}
+      </div>
     </div>
-    <div class="field-row">
-      <div class="field">
+
+    <div class="detail-grid">
+      <div class="field-item full">
         <label>Nome Sito / App</label>
-        <input type="text" id="entry-name" value="${entry.name || ''}" placeholder="Esempio: Google">
+        <div class="input-wrapper">
+          <input type="text" id="entry-name" value="${entry.name || ''}" placeholder="Esempio: Google">
+        </div>
       </div>
-      <div class="field">
-        <label>Categoria</label>
-        <select id="entry-cat">
-          <option value="web" ${entry.category === 'web' ? 'selected' : ''}>🌐 Web</option>
-          <option value="app" ${entry.category === 'app' ? 'selected' : ''}>📱 App</option>
-          <option value="bank" ${entry.category === 'bank' ? 'selected' : ''}>🏦 Banca</option>
-          <option value="other" ${entry.category === 'other' ? 'selected' : ''}>📁 Altro</option>
-        </select>
-      </div>
-    </div>
-    
-    <div class="field">
-      <label>Username / Email</label>
-      <div class="password-field">
-        <div class="field">
+
+      <div class="field-item">
+        <label>Username / Email</label>
+        <div class="input-actions-wrapper">
           <input type="text" id="entry-username" value="${entry.username || ''}" placeholder="nome@esempio.com">
+          <button class="action-btn" id="btn-copy-user-detail" title="Copia Username">${iconCopy}</button>
         </div>
-        <button class="btn-icon" id="btn-copy-user-detail" title="Copia Username">📋</button>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Password</label>
-      <div class="password-field">
-        <div class="field">
+      <div class="field-item">
+        <label>Password</label>
+        <div class="input-actions-wrapper">
           <input type="password" id="entry-password" value="${entry.password || ''}" placeholder="••••••••">
+          <button class="action-btn" id="btn-toggle-pwd-detail" title="Mostra/Nascondi">${iconEye}</button>
+          <button class="action-btn" id="btn-copy-pwd-detail" title="Copia Password">${iconCopy}</button>
         </div>
-        <button class="btn-icon" id="btn-toggle-pwd-detail" title="Mostra/Nascondi">👁️</button>
-        <button class="btn-icon" id="btn-copy-pwd-detail" title="Copia Password">📋</button>
+        <div class="strength-meter">
+          <div class="strength-bar" id="strength-bar"></div>
+        </div>
       </div>
-      <div class="strength-meter">
-        <div class="strength-bar" id="strength-bar"></div>
-      </div>
-    </div>
 
-    <div class="field">
-      <label>URL</label>
-      <div class="password-field">
-        <div class="field">
+      <div class="field-item">
+        <label>URL</label>
+        <div class="input-actions-wrapper">
           <input type="url" id="entry-url" value="${entry.url || ''}" placeholder="https://www.esempio.com">
+          <button class="action-btn" id="btn-open-url-detail" title="Apri Sito">${iconGlobe}</button>
         </div>
-        <button class="btn-icon" id="btn-open-url-detail" title="Apri Sito">🌐</button>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Note</label>
-      <textarea id="entry-notes" placeholder="Note aggiuntive...">${entry.notes || ''}</textarea>
+      <div class="field-item">
+        <label>Categoria</label>
+        <div class="input-wrapper">
+          <select id="entry-cat">
+            <option value="web" ${entry.category === 'web' ? 'selected' : ''}>🌐 Web</option>
+            <option value="app" ${entry.category === 'app' ? 'selected' : ''}>📱 App</option>
+            <option value="bank" ${entry.category === 'bank' ? 'selected' : ''}>🏦 Banca</option>
+            <option value="other" ${entry.category === 'other' ? 'selected' : ''}>📁 Altro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-item full">
+        <label>Note aggiuntive</label>
+        <div class="input-wrapper">
+          <textarea id="entry-notes" placeholder="Note aggiuntive...">${entry.notes || ''}</textarea>
+        </div>
+      </div>
     </div>
   `;
 
-  // Robust listeners (avoiding inline onclick for special characters)
+  // Robust listeners
   document.getElementById('btn-copy-user-detail').addEventListener('click', () => {
     copyToClipboard(document.getElementById('entry-username').value, 'Username');
   });
-
   document.getElementById('btn-copy-pwd-detail').addEventListener('click', () => {
     copyToClipboard(document.getElementById('entry-password').value, 'Password');
   });
-
   document.getElementById('btn-toggle-pwd-detail').addEventListener('click', () => {
     const inp = document.getElementById('entry-password');
     inp.type = inp.type === 'password' ? 'text' : 'password';
   });
-
   document.getElementById('btn-open-url-detail').addEventListener('click', () => {
     const url = document.getElementById('entry-url').value;
     if (url) window.vaultAPI.openExternal(url);
     else toast('Nessun URL da aprire.', 'error');
   });
-
   document.getElementById('entry-password').addEventListener('input', e => {
     updateStrengthBar(e.target.value);
   });
