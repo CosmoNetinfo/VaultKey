@@ -1,5 +1,8 @@
 # 🔐 VaultKey
 
+
+<img width="1132" height="784" alt="Screenshot 2026-02-19 013738" src="https://github.com/user-attachments/assets/933cd883-6e52-4a84-a360-21c1455a4c66" />
+
 [![CI](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml/badge.svg)](https://github.com/TUO_USERNAME/vaultkey/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Electron](https://img.shields.io/badge/Electron-28-47848F?logo=electron)](https://www.electronjs.org/)
